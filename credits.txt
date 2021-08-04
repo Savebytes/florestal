@@ -1,0 +1,14 @@
+Free Sound Library (Background sound)
+https://www.youtube.com/channel/UCTdyXszrxhMP-pbhy85Pa-g
+
+Sound Effect Database (Wind, axe chop)
+https://www.youtube.com/channel/UCok6P4rwxBMun9ghaIV4ufQ
+
+n Beats (Tree)
+https://www.youtube.com/channel/UCqeNgQLxwkV8TqEyxG_q60Q
+
+NicePNG (Vignette)
+https://www.nicepng.com/maxp/u2w7q8r5w7r5i1u2/
+
+Thanks also to:
+https://love2d.org/wiki (and the awesome forum!)
