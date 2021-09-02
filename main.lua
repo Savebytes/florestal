@@ -1,9 +1,20 @@
-local debugMode = false
+local debugMode = true
 local debugGame = require("src.debugGame")
 local trees = require("src.treeObjects")
 local menuUI = require("src.UI")
 local timer = require("src.timer")
 local playerStats = require("src.playerStats")
+
+-- Entity
+local entity = require("entity")
+local worldManager = require("src.world_manager")
+
+-- Components
+local rendererComponent = require("internal_components.renderer")
+local transformComponent = require("internal_components.transform")
+local followMouse = require("components.follow_mouse")
+
+--#region
 
 local objectTransform = {
     x = 0,
@@ -59,6 +70,8 @@ local vignetteWidth, vignetteHeight = vignetteSprite:getDimensions()
 local tutorialSprite = love.graphics.newImage("data/sprites/tutorial.png")
 local tutorialWidth, tutorialHeight = tutorialSprite:getDimensions()
 
+
+
 local mouseState = {
     sprite = mouseSprite,
     color = {1, 1, 1, 1}
@@ -99,9 +112,25 @@ local prohibitedSfx = love.audio.newSource("data/sfx/prohibited.ogg", "static")
 
 local treePlaceholder = nil
 
+--#endregion
+
 --love.graphics.print("Woods: " .. trees.woodAmount, 10 + 5, 10)
+local mainWorld = worldManager:createWorld()
 
 function love.load() 
+    -- tests
+    local tutorial = entity.newEntity("tutorial", {55, 0})
+    tutorial:addComponent(rendererComponent.new(tutorialSprite))
+
+    local mouse = entity.newEntity("mouse", {300, 0})
+    mouse:addComponent(rendererComponent.new(mouseSprite, 0.2))
+    mouse:addComponent(followMouse.new(mouse:getComponent("transform")))
+
+    mainWorld:addEntity(tutorial)
+    mainWorld:addEntity(mouse)
+
+    mainWorld.start()
+
     love.mouse.setVisible(false)
 
     windSfx:play()
@@ -128,7 +157,7 @@ function love.load()
     end)
 
     local i = 0
-    while i < windowWidth do 
+    while i < windowWidth do
         local ground = {x = i, y = (windowHeight) - (groundHeight - 40), width = 1, height = 1}
         table.insert(groundObjects, ground)
 
@@ -136,7 +165,7 @@ function love.load()
     end
 
     local j = 0
-    while j < windowWidth do 
+    while j < windowWidth do
         local background = {x = j, y = (windowHeight) - (backgroundHeight + 50), width = 1, height = 1}
         table.insert(backgroundObjects, background)
 
@@ -144,7 +173,7 @@ function love.load()
     end
 
     local z = 0
-    while z < windowWidth do 
+    while z < windowWidth do
         local star = {x = z, y = -30, width = 1, height = 1}
         table.insert(starsObjects, star)
 
@@ -204,9 +233,12 @@ function love.load()
 end
 
 function love.update(dt)
+    mainWorld:update(dt)
     if tutorial then
         return
     end
+
+    
 
     if gamePaused then
         menuUI.update(love.mouse.getX(), love.mouse.getY(), leftMouseDown)
@@ -396,6 +428,14 @@ function plantPlant()
 end
 
 function love.draw()
+    love.graphics.setColor(1, 1, 1, 1)
+    mainWorld:draw()
+
+    -- UI DEBUG
+    if debugMode then
+        debugGame.draw()
+    end
+    --[[ 
     love.graphics.setBackgroundColor(gameColors.background)
 
     love.graphics.setShader()
@@ -416,6 +456,7 @@ function love.draw()
     end
 
     trees.draw(treeSprite) 
+
 
     love.graphics.setShader()
     love.graphics.setColor(treePlaceholder.color)
@@ -454,9 +495,7 @@ function love.draw()
         menuUI.draw()
     end
 
-    if tutorial then
-        love.graphics.draw(tutorialSprite, windowWidth / 2 - tutorialWidth / 2, 10, 0, 1, 1)
-    end
+    
 
     love.graphics.setShader()
     love.graphics.setColor(mouseState.color)
@@ -466,10 +505,9 @@ function love.draw()
     -- fit to screen: windowWidth / spriteWidth
     love.graphics.draw(vignetteSprite, 0, 0, 0, love.graphics.getWidth() / vignetteWidth, love.graphics.getHeight() / vignetteHeight)
 
-    -- UI DEBUG
-    if debugMode then
-        debugGame.draw()
-    end
+    
+
+    ]]--
 end
 
 function roundNumber(number, roundBy)
