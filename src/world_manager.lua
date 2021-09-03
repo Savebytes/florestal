@@ -11,7 +11,7 @@ function worldManager:createWorld()
     function world:start()
         for key, value in pairs(world.entities) do
             if value.start then
-                value.start()
+                value:start()
             end
         end
     end
@@ -21,7 +21,7 @@ function worldManager:createWorld()
             if not value.update then
                 return
             end
-            value.update(dt)
+            value:update(dt)
         end
     end
 

@@ -117,19 +117,19 @@ local treePlaceholder = nil
 --love.graphics.print("Woods: " .. trees.woodAmount, 10 + 5, 10)
 local mainWorld = worldManager:createWorld()
 
-function love.load() 
+function love.load()
     -- tests
-    local tutorial = entity.newEntity("tutorial", {55, 0})
+    local tutorial = entity.new("tutorial", {55, 0})
     tutorial:addComponent(rendererComponent.new(tutorialSprite))
 
-    local mouse = entity.newEntity("mouse", {300, 0})
+    local mouse = entity.new("mouse", {300, 0})
     mouse:addComponent(rendererComponent.new(mouseSprite, 0.2))
     mouse:addComponent(followMouse.new(mouse:getComponent("transform")))
 
     mainWorld:addEntity(tutorial)
     mainWorld:addEntity(mouse)
 
-    mainWorld.start()
+    mainWorld:start()
 
     love.mouse.setVisible(false)
 
@@ -143,7 +143,6 @@ function love.load()
 
     rainSfx:setVolume(0.6)
     rainSfx:setLooping(true)
-
 
     timer.newTimer(16, function()
         local randomX = love.math.random(shootingStarWidth, windowWidth)
@@ -234,6 +233,7 @@ end
 
 function love.update(dt)
     mainWorld:update(dt)
+
     if tutorial then
         return
     end

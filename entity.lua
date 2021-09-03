@@ -2,7 +2,7 @@ local transformComponent = require("internal_components.transform")
 
 local entity = {}
 
-function entity.newEntity(name, position)
+function entity.new(name, position)
     if name == "" or name == nil then
         print("The entity needs a valid name.")
         return
@@ -41,26 +41,26 @@ function entity.newEntity(name, position)
         components[componentName] = nil
     end
 
-    function ent.start()
+    function ent:start()
         for _, value in pairs(components) do
             if value.start then
-                value.start()
+                value:start()
             end
         end
     end
 
-    function ent.update(dt)
+    function ent:update(dt)
         for _, value in pairs(components) do
             if value.update then
-                value.update(dt)
+                value:update(dt)
             end
         end
     end
 
-    function ent.draw()
+    function ent:draw()
         for _, value in pairs(components) do
             if value.draw then
-                value.draw(components["transform"])
+                value:draw(components["transform"])
             end
         end
     end

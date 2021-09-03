@@ -5,7 +5,7 @@ function followMouse.new(_transform)
     follow.name = "followMouse"
 
     function follow.start()
-        print("start mouse")
+        print("start mouse follow")
     end
 
     function follow.update(dt)
