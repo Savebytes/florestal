@@ -124,7 +124,7 @@ function love.load()
 
     local mouse = entity.new("mouse", {300, 0})
     mouse:addComponent(rendererComponent.new(mouseSprite, 0.2))
-    mouse:addComponent(followMouse.new(mouse:getComponent("transform")))
+    mouse:addComponent(followMouse.new(mouse))
 
     mainWorld:addEntity(tutorial)
     mainWorld:addEntity(mouse)

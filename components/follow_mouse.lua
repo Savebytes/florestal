@@ -1,16 +1,16 @@
 local followMouse = {}
 
-function followMouse.new(_transform)
+function followMouse.new(_entity)
     local follow = {}
     follow.name = "followMouse"
 
-    function follow.start()
-        print("start mouse follow")
+    function follow:start()
+        self.entity = _entity:getComponent("transform")
     end
 
-    function follow.update(dt)
-       _transform.x = love.mouse.getX()
-       _transform.y = love.mouse.getY()
+    function follow:update(dt)
+       self.entity.x = love.mouse.getX()
+       self.entity.y = love.mouse.getY()
     end
 
     return follow
