@@ -11,5 +11,6 @@ After that, fork this repository or click in the download button.
 
 # To do
 - [x] Basic mechanic
+- [ ] Refactor the code
 - [ ] Random events in game (i.e lightning, sandstorm and so on...)
 - [ ] More maps
