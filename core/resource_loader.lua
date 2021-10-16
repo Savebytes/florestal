@@ -43,7 +43,7 @@ function ResourceLoader:loadMusic(path)
     local files = love.filesystem.getDirectoryItems(path)
     for key, value in ipairs(files) do
         local file = files[key]
-        local fileName = file:match("(.+)%.wav$")
+        local fileName = file:match("(.+)%.wav$") or file:match("(.+)%.ogg$")
 
         if fileName ~= nil then
             local music = love.audio.newSource(path .. "/"..file, "stream")
